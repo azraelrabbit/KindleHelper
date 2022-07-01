@@ -45,6 +45,7 @@ namespace KindleHelper
             }
             Directory.CreateDirectory("./tmp");
             createCover(book);
+
             createChapters(book);
             createStyle(book);
             createBookToc(book);

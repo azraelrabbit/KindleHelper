@@ -417,7 +417,7 @@ namespace KindleHelper
             //            chapterInfo.title = chapter.title;
             //            chaperInfoList.Add(chapterInfo);
             //            downloadSucess = true;
-                        
+
             //        }
             //    }
             //    catch (Exception ex)
@@ -439,7 +439,7 @@ namespace KindleHelper
             //            emptyChaper.body = "本章下载失败了，失败原因:\n " + errMsg;
             //            chaperInfoList.Add(emptyChaper);
             //            downloadSucess = true;
-                        
+
             //        }
 
             //    }
@@ -456,7 +456,7 @@ namespace KindleHelper
             //       progress * 100);
             //    backgroundworker_download.ReportProgress(i, info);
 
-              
+
 
             //    while (true)
             //    {
@@ -504,6 +504,10 @@ namespace KindleHelper
             //        }
             //    }
             //}
+
+
+            if (backgroundworker_download.CancellationPending) return;
+
             backgroundworker_download.ReportProgress(chapters.Length, "正在生成电子书请稍后....");
             string ext = Path.GetExtension(savePath);
             Book book = new Book();
