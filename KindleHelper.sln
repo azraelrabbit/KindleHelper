@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32611.2
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libZhuishu", "libZhuishu\libZhuishu.csproj", "{326650CB-B2EF-4DB4-990C-95C1E0C5E322}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KindleHelper", "KindleHelper\KindleHelper.csproj", "{7F95AFC8-14CC-4451-BB8C-3E272F1B10BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "I7txtCC", "I7txtCC\I7txtCC.csproj", "{A900FB95-58C1-4B94-B2FE-281FD570D7C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookLogicCommon", "BookLogicCommon\BookLogicCommon.csproj", "{6DA237C7-A82C-48D0-A83A-5200DC5E1865}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +55,38 @@ Global
 		{7F95AFC8-14CC-4451-BB8C-3E272F1B10BE}.Release|x64.Build.0 = Release|Any CPU
 		{7F95AFC8-14CC-4451-BB8C-3E272F1B10BE}.Release|x86.ActiveCfg = Release|Any CPU
 		{7F95AFC8-14CC-4451-BB8C-3E272F1B10BE}.Release|x86.Build.0 = Release|Any CPU
+		{A900FB95-58C1-4B94-B2FE-281FD570D7C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A900FB95-58C1-4B94-B2FE-281FD570D7C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A900FB95-58C1-4B94-B2FE-281FD570D7C3}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{A900FB95-58C1-4B94-B2FE-281FD570D7C3}.Debug|ARM.Build.0 = Debug|Any CPU
+		{A900FB95-58C1-4B94-B2FE-281FD570D7C3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A900FB95-58C1-4B94-B2FE-281FD570D7C3}.Debug|x64.Build.0 = Debug|Any CPU
+		{A900FB95-58C1-4B94-B2FE-281FD570D7C3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A900FB95-58C1-4B94-B2FE-281FD570D7C3}.Debug|x86.Build.0 = Debug|Any CPU
+		{A900FB95-58C1-4B94-B2FE-281FD570D7C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A900FB95-58C1-4B94-B2FE-281FD570D7C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A900FB95-58C1-4B94-B2FE-281FD570D7C3}.Release|ARM.ActiveCfg = Release|Any CPU
+		{A900FB95-58C1-4B94-B2FE-281FD570D7C3}.Release|ARM.Build.0 = Release|Any CPU
+		{A900FB95-58C1-4B94-B2FE-281FD570D7C3}.Release|x64.ActiveCfg = Release|Any CPU
+		{A900FB95-58C1-4B94-B2FE-281FD570D7C3}.Release|x64.Build.0 = Release|Any CPU
+		{A900FB95-58C1-4B94-B2FE-281FD570D7C3}.Release|x86.ActiveCfg = Release|Any CPU
+		{A900FB95-58C1-4B94-B2FE-281FD570D7C3}.Release|x86.Build.0 = Release|Any CPU
+		{6DA237C7-A82C-48D0-A83A-5200DC5E1865}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DA237C7-A82C-48D0-A83A-5200DC5E1865}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DA237C7-A82C-48D0-A83A-5200DC5E1865}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{6DA237C7-A82C-48D0-A83A-5200DC5E1865}.Debug|ARM.Build.0 = Debug|Any CPU
+		{6DA237C7-A82C-48D0-A83A-5200DC5E1865}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6DA237C7-A82C-48D0-A83A-5200DC5E1865}.Debug|x64.Build.0 = Debug|Any CPU
+		{6DA237C7-A82C-48D0-A83A-5200DC5E1865}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6DA237C7-A82C-48D0-A83A-5200DC5E1865}.Debug|x86.Build.0 = Debug|Any CPU
+		{6DA237C7-A82C-48D0-A83A-5200DC5E1865}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DA237C7-A82C-48D0-A83A-5200DC5E1865}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DA237C7-A82C-48D0-A83A-5200DC5E1865}.Release|ARM.ActiveCfg = Release|Any CPU
+		{6DA237C7-A82C-48D0-A83A-5200DC5E1865}.Release|ARM.Build.0 = Release|Any CPU
+		{6DA237C7-A82C-48D0-A83A-5200DC5E1865}.Release|x64.ActiveCfg = Release|Any CPU
+		{6DA237C7-A82C-48D0-A83A-5200DC5E1865}.Release|x64.Build.0 = Release|Any CPU
+		{6DA237C7-A82C-48D0-A83A-5200DC5E1865}.Release|x86.ActiveCfg = Release|Any CPU
+		{6DA237C7-A82C-48D0-A83A-5200DC5E1865}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

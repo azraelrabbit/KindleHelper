@@ -7,9 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using libZhuishu;
+using I7txtCC;
+
 using System.Diagnostics;
 using System.IO;
+using BookLogicCommon;
+
 namespace KindleHelper
 {
     public partial class FormSearch : Form
@@ -20,32 +23,44 @@ namespace KindleHelper
         }
 
 
+        static INovolLogic _logic;
+
         private void btn_search_Click(object sender, EventArgs e)
         {
             FormSearchResult form_result = new FormSearchResult();
-            var results = LibZhuiShu.fuzzySearch(textbox_search.Text, 0, 100);
-            if (results == null || results.Length < 1) {
-                MessageBox.Show("没有找到:" + textbox_search.Text);
-                return;
-            }
-            form_result.ShowResult(results);
+            //var results = LibZhuiShu.fuzzySearch(textbox_search.Text, 0, 100);
+
+            Task.Run(() =>
+            {
+                var results = _logic.fuzzySearch(textbox_search.Text.Trim());
+
+                if (results == null || results.Length < 1)
+                {
+                    MessageBox.Show("没有找到:" + textbox_search.Text);
+                    return;
+                }
+
+                RunInMainthread(() => { form_result.ShowResult(results, _logic); });
+
+            });
+
         }
 
         private void textbox_search_TextChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(textbox_search.Text)) return;
-            listbox_autocomplate.Items.Clear();
-            RunAsync(()=> {
-                var words = LibZhuiShu.autoComplate(textbox_search.Text);
-                RunInMainthread(()=> {
-                    if (words != null && words.Length > 0) {
-                        listbox_autocomplate.Items.AddRange(words);
-                        listbox_autocomplate.Visible = true;
-                    } else {
-                        listbox_autocomplate.Visible = false;
-                    }
-                });
-            });
+            //if (string.IsNullOrWhiteSpace(textbox_search.Text)) return;
+            //listbox_autocomplate.Items.Clear();
+            //RunAsync(()=> {
+            //    var words = LibZhuiShu.autoComplate(textbox_search.Text);
+            //    RunInMainthread(()=> {
+            //        if (words != null && words.Length > 0) {
+            //            listbox_autocomplate.Items.AddRange(words);
+            //            listbox_autocomplate.Visible = true;
+            //        } else {
+            //            listbox_autocomplate.Visible = false;
+            //        }
+            //    });
+            //});
 
 
         }
@@ -56,25 +71,29 @@ namespace KindleHelper
 
             textbox_search.Text = listbox_autocomplate.SelectedItem.ToString();
             listbox_autocomplate.Visible = false;
-            btn_search_Click(sender,e);
+            btn_search_Click(sender, e);
         }
 
         private void FormSearch_Load(object sender, EventArgs e)
         {
             this.Text += " V" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+            _logic = new NovolLogic();
         }
 
 
         void RunAsync(Action action)
         {
-            ((Action)(delegate () {
+            ((Action)(delegate ()
+            {
                 action?.Invoke();
             })).BeginInvoke(null, null);
         }
 
         void RunInMainthread(Action action)
         {
-            this.BeginInvoke((Action)(delegate () {
+            this.BeginInvoke((Action)(delegate ()
+            {
                 action?.Invoke();
             }));
         }

@@ -7,15 +7,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using libZhuishu;
-using System.Net;
+ using System.Net;
 using System.Threading;
 using System.IO;
+using BookLogicCommon.api;
+using BookLogicCommon;
+using System.Diagnostics;
+
 namespace KindleHelper
 {
     public partial class FormBookDetail : Form
     {
-
+        INovolLogic _logic;
 
         public FormBookDetail()
         {
@@ -23,32 +26,40 @@ namespace KindleHelper
         }
         QueryBookInfo mBook;
         tocChaperInfo[] mChapers;
-        TocSummmaryInfo[] mTocs;
-        MixTocInfo mMixToc;
+        //TocSummmaryInfo[] mTocs;
+        //MixTocInfo mMixToc;
         List<tocChaperInfo> preDownLoadChapters = new List<tocChaperInfo>();
 
-        public void ShowBook(QueryBookInfo book)
+        public void ShowBook(QueryBookInfo book, INovolLogic logic)
         {
+            _logic= logic;
+
             mBook = book;
             label_name.Text = book.title;
-            string wordCount = book.wordCount + "字";
-            if (book.wordCount >= 10000)
-            {
-                wordCount = (book.wordCount / 10000) + " 万字";
-            }
-            label_baseinfo.Text = book.author + " | " + book.cat + " | " + wordCount;
-            if (!string.IsNullOrWhiteSpace(book.retentionRatio))
-            {
-                label_retentionRatio.Text = "追书留存率:" + book.retentionRatio + "%";
-            }
-            else
-            {
-                label_retentionRatio.Text = "追书留存率:无数据";
-            }
 
-            label_latelyFollower.Text = "追书人数:" + book.latelyFollower + " 人";
-            label_lastChapter.Text = "最后更新章节:" + book.lastChapter;
-            label_site.Text = "首发网站:" + book.site;
+            label_baseinfo.Text = book.type;
+
+            //string wordCount = book.wordCount + "字";
+            //if (book.wordCount >= 10000)
+            //{
+            //    wordCount = (book.wordCount / 10000) + " 万字";
+            //}
+            //label_baseinfo.Text = book.author + " | " + book.cat + " | " + wordCount;
+            //if (!string.IsNullOrWhiteSpace(book.retentionRatio))
+            //{
+            //    label_retentionRatio.Text = "追书留存率:" + book.retentionRatio + "%";
+            //}
+            //else
+            //{
+            //    label_retentionRatio.Text = "追书留存率:无数据";
+            //}
+
+            label_status.Text ="状态: "+ book.status;// "追书人数:" + book.retentionRatio + " 人";
+            label_lastChapter.Text = "最新章节: "+  book.lastChapter;
+            //label_site.Text = "首发网站:" + book.site;\
+
+            label_lastdate.Text = book.lastDate;
+
             textBox_shortIntro.Text = book.shortIntro;
             string url = book.cover;
             int urlStartIndex = url.IndexOf("http:");
@@ -58,60 +69,64 @@ namespace KindleHelper
                 picturebox_cover.ImageLocation = url;
             }
 
-            mMixToc = LibZhuiShu.getMixToc(mBook._id);
-            mTocs = LibZhuiShu.getTocSummary(mBook._id);
-            if(mMixToc!=null)
-            {
-                changeToc(-1);
-            }
-            else if(mTocs!=null && mTocs.Length > 0)
-            {
-                changeToc(0);
-            }
-            else
-            {
-                MessageBox.Show("无可用的书源!");
-                return;
-            }
-            
+           var chi= _logic.getChaperList(book.indexUrl, book.title, book._id);
+
+            this.mChapers = chi.chapters;
+
+            //mMixToc = LibZhuiShu.getMixToc(mBook._id);
+            //mTocs = LibZhuiShu.getTocSummary(mBook._id);
+            //if(mMixToc!=null)
+            //{
+            //    changeToc(-1);
+            //}
+            //else if(mTocs!=null && mTocs.Length > 0)
+            //{
+            //    changeToc(0);
+            //}
+            //else
+            //{
+            //    MessageBox.Show("无可用的书源!");
+            //    return;
+            //}
+
             this.Show();
 
         }
 
 
 
-        void changeToc(int index)
-        {
-            if (index < 0)
-            {
-                //混合源
-                if (mMixToc != null)
-                {
-                    mChapers = mMixToc.chapters;
-                }
-                label_toc.Text = "当前书源:混合源";
-            }
-            else
-            {
-                var toc = mTocs[index];
-                var info = LibZhuiShu.getChaperList(toc._id);
-                if (info != null)
-                {
-                    mChapers = info.chapters;
-                }
-                label_toc.Text = "当前书源:" + toc.name;
-            }
+        //void changeToc(int index)
+        //{
+        //    if (index < 0)
+        //    {
+        //        //混合源
+        //        if (mMixToc != null)
+        //        {
+        //            mChapers = mMixToc.chapters;
+        //        }
+        //        label_toc.Text = "当前书源:混合源";
+        //    }
+        //    else
+        //    {
+        //        var toc = mTocs[index];
+        //        var info = LibZhuiShu.getChaperList(toc._id);
+        //        if (info != null)
+        //        {
+        //            mChapers = info.chapters;
+        //        }
+        //        label_toc.Text = "当前书源:" + toc.name;
+        //    }
 
-            if (mChapers != null)
-            {
-                UpdateChapterList(mChapers);
-            }
+        //    if (mChapers != null)
+        //    {
+        //        UpdateChapterList(mChapers);
+        //    }
 
-            txtFrom.Maximum = mChapers.Length;
-            txtTo.Maximum = mChapers.Length + 1;
-            txtTo.Value = txtTo.Maximum;
-            lblChapterCount.Text = $"共 {mChapers.Length + 1} 章";
-        }
+        //    txtFrom.Maximum = mChapers.Length;
+        //    txtTo.Maximum = mChapers.Length + 1;
+        //    txtTo.Value = txtTo.Maximum;
+        //    lblChapterCount.Text = $"共 {mChapers.Length + 1} 章";
+        //}
 
         private void label1_Click(object sender, EventArgs e)
         {
@@ -129,15 +144,15 @@ namespace KindleHelper
 
         }
 
-        private void button_toc_Click(object sender, EventArgs e)
-        {
-            if (backgroundworker_download.IsBusy) return;
-            FormTocList formToc = new FormTocList();
-            formToc.ShowTocList(mMixToc, mTocs, (index) =>
-            {
-                changeToc(index);
-            });
-        }
+        //private void button_toc_Click(object sender, EventArgs e)
+        //{
+        //    if (backgroundworker_download.IsBusy) return;
+        //    FormTocList formToc = new FormTocList();
+        //    formToc.ShowTocList(mMixToc, mTocs, (index) =>
+        //    {
+        //        changeToc(index);
+        //    });
+        //}
 
         private void button_download_Click(object sender, EventArgs e)
         {
@@ -224,6 +239,86 @@ namespace KindleHelper
         }
 
 
+        //private void backgroundworker_download_DoWork(object sender, DoWorkEventArgs e)
+        //{
+        //    var chapters = preDownLoadChapters.ToArray();
+        //    var pb = progressbar_download;
+        //    var label = label_downloadinfo;
+        //    string savePath = e.Argument.ToString();
+        //    List<ChapterInfo> chaperInfoList = new List<ChapterInfo>();
+        //    for (int i = 0; i < chapters.Length; i++)
+        //    {
+        //        if (backgroundworker_download.CancellationPending) return;
+        //        var chapter = chapters[i];
+        //        float progress = (float)(i + 1) / (float)chapters.Length;
+        //        string info = string.Format("正在下载:{0} {1}/{2} {3:F2}%", chapter.title, i + 1, chapters.Length,
+        //           progress * 100);
+        //        backgroundworker_download.ReportProgress(i, info);
+
+        //        while (true)
+        //        {
+        //            bool downloadSucess = false;
+        //            string errMsg = "";
+        //            for (int j = 0; j < 3; j++)
+        //            {
+        //                try
+        //                {
+        //                    var chapterInfo = _logic.getChapter(chapter.link,chapter.title,chapter.id);
+        //                    if (chapterInfo != null)
+        //                    {
+        //                        chapterInfo.title = chapter.title;
+        //                        chaperInfoList.Add(chapterInfo);
+        //                        downloadSucess = true;
+        //                        break;
+        //                    }
+        //                }
+        //                catch (Exception ex)
+        //                {
+        //                    errMsg = ex.Message;
+        //                }
+        //            }
+        //            if (!downloadSucess)
+        //            {
+        //                var result = MessageBox.Show(errMsg, "章节 " + chapter.title + " 下载失败", MessageBoxButtons.AbortRetryIgnore);
+        //                if (result == DialogResult.Abort)
+        //                {
+        //                    return;
+        //                }
+        //                else if (result == DialogResult.Ignore)
+        //                {
+        //                    var emptyChaper = new ChapterInfo();
+        //                    emptyChaper.title = chapter.title;
+        //                    emptyChaper.body = "本章下载失败了，失败原因:\n " + errMsg;
+        //                    chaperInfoList.Add(emptyChaper);
+        //                    downloadSucess = true;
+        //                    break;
+        //                }
+
+        //            }
+        //            else
+        //            {
+        //                break;
+        //            }
+        //        }
+        //    }
+        //    backgroundworker_download.ReportProgress(chapters.Length, "正在生成电子书请稍后....");
+        //    string ext = Path.GetExtension(savePath);
+        //    Book book = new Book();
+        //    book.name = mBook.title;
+        //    book.author = mBook.author;
+        //    book.id = mBook._id;
+        //    book.chapters = chaperInfoList.ToArray();
+        //    if (ext.ToLower() == ".txt")
+        //    {
+        //        Kindlegen.book2Txt(book, savePath);
+        //    }
+        //    else if (ext.ToLower() == ".mobi")
+        //    {
+        //        Kindlegen.book2Mobi(book, savePath);
+        //    }
+        //    MessageBox.Show("下载完成,文件保存在:" + savePath);
+        //}
+
         private void backgroundworker_download_DoWork(object sender, DoWorkEventArgs e)
         {
             var chapters = preDownLoadChapters.ToArray();
@@ -231,37 +326,45 @@ namespace KindleHelper
             var label = label_downloadinfo;
             string savePath = e.Argument.ToString();
             List<ChapterInfo> chaperInfoList = new List<ChapterInfo>();
-            for (int i = 0; i < chapters.Length; i++)
-            {
-                if (backgroundworker_download.CancellationPending) return;
-                var chapter = chapters[i];
-                float progress = (float)(i + 1) / (float)chapters.Length;
-                string info = string.Format("正在下载:{0} {1}/{2} {3:F2}%", chapter.title, i + 1, chapters.Length,
-                   progress * 100);
-                backgroundworker_download.ReportProgress(i, info);
 
-                while (true)
-                {
+            var i = 0;
+
+            var tasklist = new List<Task>();
+
+            foreach (var t in chapters)
+            {
+                var mt = Task.Run(async () => {
+
+                    if (backgroundworker_download.CancellationPending) return;
+                    var chapter = t;
+
+                    Interlocked.Increment(ref i);
+
+                    float progress = (float)(i) / (float)chapters.Length;
+                    string info = string.Format("正在下载:{0} {1}/{2} {3:F2}%", chapter.title, i + 1, chapters.Length,
+                       progress * 100);
+
+                    backgroundworker_download.ReportProgress(i, info);
+
                     bool downloadSucess = false;
                     string errMsg = "";
-                    for (int j = 0; j < 3; j++)
+
+                    try
                     {
-                        try
+                        var chapterInfo = await _logic.getChapter(chapter.link, chapter.title, chapter.id, chapter.index).ConfigureAwait(false);
+                        if (chapterInfo != null)
                         {
-                            var chapterInfo = LibZhuiShu.getChapter(chapter.link);
-                            if (chapterInfo != null)
-                            {
-                                chapterInfo.title = chapter.title;
-                                chaperInfoList.Add(chapterInfo);
-                                downloadSucess = true;
-                                break;
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            errMsg = ex.Message;
+                            chapterInfo.title = chapter.title;
+                            chaperInfoList.Add(chapterInfo);
+                            downloadSucess = true;
+
                         }
                     }
+                    catch (Exception ex)
+                    {
+                        errMsg = ex.Message;
+                    }
+
                     if (!downloadSucess)
                     {
                         var result = MessageBox.Show(errMsg, "章节 " + chapter.title + " 下载失败", MessageBoxButtons.AbortRetryIgnore);
@@ -276,23 +379,138 @@ namespace KindleHelper
                             emptyChaper.body = "本章下载失败了，失败原因:\n " + errMsg;
                             chaperInfoList.Add(emptyChaper);
                             downloadSucess = true;
-                            break;
+
                         }
 
                     }
-                    else
-                    {
-                        break;
-                    }
-                }
+
+                });
+
+                tasklist.Add(mt);
+
             }
+
+            Task.WaitAll(tasklist.ToArray());
+
+            //Parallel.ForEach(chapters, async t => {
+
+            //    if (backgroundworker_download.CancellationPending) return;
+
+            //    var chapter = t;
+
+            //    Interlocked.Increment(ref i);
+
+            //    float progress= (float)(i)/ (float)chapters.Length; 
+            //    string info = string.Format("正在下载:{0} {1}/{2} {3:F2}%", chapter.title, i + 1, chapters.Length,
+            //       progress * 100);
+
+            //    backgroundworker_download.ReportProgress(i, info);
+
+            //    bool downloadSucess = false;
+            //    string errMsg = "";
+
+            //    try
+            //    {
+            //        var chapterInfo = await _logic.getChapter(chapter.link, chapter.title, chapter.id, chapter.index);
+            //        if (chapterInfo != null)
+            //        {
+            //            chapterInfo.title = chapter.title;
+            //            chaperInfoList.Add(chapterInfo);
+            //            downloadSucess = true;
+                        
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        errMsg = ex.Message;
+            //    }
+
+            //    if (!downloadSucess)
+            //    {
+            //        var result = MessageBox.Show(errMsg, "章节 " + chapter.title + " 下载失败", MessageBoxButtons.AbortRetryIgnore);
+            //        if (result == DialogResult.Abort)
+            //        {
+            //            return;
+            //        }
+            //        else if (result == DialogResult.Ignore)
+            //        {
+            //            var emptyChaper = new ChapterInfo();
+            //            emptyChaper.title = chapter.title;
+            //            emptyChaper.body = "本章下载失败了，失败原因:\n " + errMsg;
+            //            chaperInfoList.Add(emptyChaper);
+            //            downloadSucess = true;
+                        
+            //        }
+
+            //    }
+
+            //});
+
+
+            //for (int i = 0; i < chapters.Length; i++)
+            //{
+            //    if (backgroundworker_download.CancellationPending) return;
+            //    var chapter = chapters[i];
+            //    float progress = (float)(i + 1) / (float)chapters.Length;
+            //    string info = string.Format("正在下载:{0} {1}/{2} {3:F2}%", chapter.title, i + 1, chapters.Length,
+            //       progress * 100);
+            //    backgroundworker_download.ReportProgress(i, info);
+
+              
+
+            //    while (true)
+            //    {
+            //        bool downloadSucess = false;
+            //        string errMsg = "";
+            //        for (int j = 0; j < 3; j++)
+            //        {
+            //            try
+            //            {
+            //                var chapterInfo = _logic.getChapter(chapter.link, chapter.title, chapter.id,chapter.index);
+            //                if (chapterInfo != null)
+            //                {
+            //                    chapterInfo.title = chapter.title;
+            //                    chaperInfoList.Add(chapterInfo);
+            //                    downloadSucess = true;
+            //                    break;
+            //                }
+            //            }
+            //            catch (Exception ex)
+            //            {
+            //                errMsg = ex.Message;
+            //            }
+            //        }
+            //        if (!downloadSucess)
+            //        {
+            //            var result = MessageBox.Show(errMsg, "章节 " + chapter.title + " 下载失败", MessageBoxButtons.AbortRetryIgnore);
+            //            if (result == DialogResult.Abort)
+            //            {
+            //                return;
+            //            }
+            //            else if (result == DialogResult.Ignore)
+            //            {
+            //                var emptyChaper = new ChapterInfo();
+            //                emptyChaper.title = chapter.title;
+            //                emptyChaper.body = "本章下载失败了，失败原因:\n " + errMsg;
+            //                chaperInfoList.Add(emptyChaper);
+            //                downloadSucess = true;
+            //                break;
+            //            }
+
+            //        }
+            //        else
+            //        {
+            //            break;
+            //        }
+            //    }
+            //}
             backgroundworker_download.ReportProgress(chapters.Length, "正在生成电子书请稍后....");
             string ext = Path.GetExtension(savePath);
             Book book = new Book();
             book.name = mBook.title;
             book.author = mBook.author;
             book.id = mBook._id;
-            book.chapters = chaperInfoList.ToArray();
+            book.chapters = chaperInfoList.OrderBy(p=>p.index).ToArray();
             if (ext.ToLower() == ".txt")
             {
                 Kindlegen.book2Txt(book, savePath);

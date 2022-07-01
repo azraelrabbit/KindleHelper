@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>KindleHelper</RootNamespace>
     <AssemblyName>KindleHelper</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>false</IsWebBootstrapper>
@@ -31,6 +31,7 @@
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <HockeyAppResourceId>060d1f17f1554d5cadd3d00ee9ee543b</HockeyAppResourceId>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -98,14 +99,7 @@
     <Compile Include="FormSearchResult.Designer.cs">
       <DependentUpon>FormSearchResult.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormTocList.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormTocList.Designer.cs">
-      <DependentUpon>FormTocList.cs</DependentUpon>
-    </Compile>
     <Compile Include="lib\Book.cs" />
-    <Compile Include="lib\BookDownloader.cs" />
     <Compile Include="lib\Kindlegen.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -118,9 +112,6 @@
     <EmbeddedResource Include="FormSearchResult.resx">
       <DependentUpon>FormSearchResult.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormTocList.resx">
-      <DependentUpon>FormTocList.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -129,6 +120,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="KindleHelper_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
@@ -140,18 +132,43 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="tpls\tpl_content.opf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="tpls\tpl_toc.ncx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\libZhuishu\libZhuishu.csproj">
-      <Project>{326650cb-b2ef-4db4-990c-95c1e0c5e322}</Project>
-      <Name>libZhuishu</Name>
+    <ProjectReference Include="..\BookLogicCommon\BookLogicCommon.csproj">
+      <Project>{6da237c7-a82c-48d0-a83a-5200dc5e1865}</Project>
+      <Name>BookLogicCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\I7txtCC\I7txtCC.csproj">
+      <Project>{a900fb95-58c1-4b94-b2fe-281fd570d7c3}</Project>
+      <Name>I7txtCC</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.ico" />
+    <Content Include="tools\kindlegen.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tpls\tpl_book_toc.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tpls\tpl_chapter.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tpls\tpl_cover.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tpls\tpl_style.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">

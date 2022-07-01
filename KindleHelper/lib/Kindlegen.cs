@@ -167,7 +167,7 @@ namespace KindleHelper
         static void gen(string savePath)
         {
             string binPath = Directory.GetCurrentDirectory() + "/tools/kindlegen.exe";
-            string param = "content.opf -c1 -o book.mobi";
+            string param = "content.opf -c1 -o book.mobi -dont_append_source";
             ProcessStartInfo p = null;
             Process Proc;
             p = new ProcessStartInfo(binPath, param);
