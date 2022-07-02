@@ -176,13 +176,14 @@
             // 
             this.listview_chapers.FullRowSelect = true;
             this.listview_chapers.HideSelection = false;
-            this.listview_chapers.Location = new System.Drawing.Point(42, 856);
+            this.listview_chapers.Location = new System.Drawing.Point(35, 818);
             this.listview_chapers.Margin = new System.Windows.Forms.Padding(6);
             this.listview_chapers.Name = "listview_chapers";
-            this.listview_chapers.Size = new System.Drawing.Size(952, 278);
+            this.listview_chapers.Size = new System.Drawing.Size(952, 126);
             this.listview_chapers.TabIndex = 14;
             this.listview_chapers.UseCompatibleStateImageBehavior = false;
             this.listview_chapers.View = System.Windows.Forms.View.Details;
+            this.listview_chapers.Visible = false;
             this.listview_chapers.DoubleClick += new System.EventHandler(this.listview_chapers_DoubleClick);
             // 
             // progressbar_download
@@ -294,7 +295,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1002, 1098);
+            this.ClientSize = new System.Drawing.Size(1002, 851);
             this.Controls.Add(this.lblChapterCount);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtTo);
@@ -319,7 +320,7 @@
             this.Margin = new System.Windows.Forms.Padding(6);
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(1028, 1169);
-            this.MinimumSize = new System.Drawing.Size(1028, 1169);
+            this.MinimumSize = new System.Drawing.Size(1028, 900);
             this.Name = "FormBookDetail";
             this.Text = "书籍详情";
             this.Load += new System.EventHandler(this.FormBookDetail_Load);

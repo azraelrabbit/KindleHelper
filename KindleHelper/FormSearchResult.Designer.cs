@@ -34,9 +34,12 @@
             // listview_result
             // 
             this.listview_result.FullRowSelect = true;
-            this.listview_result.Location = new System.Drawing.Point(12, 12);
+            this.listview_result.GridLines = true;
+            this.listview_result.HideSelection = false;
+            this.listview_result.Location = new System.Drawing.Point(21, 19);
+            this.listview_result.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.listview_result.Name = "listview_result";
-            this.listview_result.Size = new System.Drawing.Size(860, 527);
+            this.listview_result.Size = new System.Drawing.Size(1716, 1005);
             this.listview_result.TabIndex = 0;
             this.listview_result.UseCompatibleStateImageBehavior = false;
             this.listview_result.View = System.Windows.Forms.View.Details;
@@ -44,14 +47,16 @@
             // 
             // FormSearchResult
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(884, 551);
+            this.ClientSize = new System.Drawing.Size(1748, 1038);
             this.Controls.Add(this.listview_result);
+            this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(900, 590);
-            this.MinimumSize = new System.Drawing.Size(900, 590);
+            this.MaximumSize = new System.Drawing.Size(1774, 1109);
+            this.MinimumSize = new System.Drawing.Size(1774, 1109);
             this.Name = "FormSearchResult";
             this.Text = "搜索结果";
             this.Load += new System.EventHandler(this.FormSearchResult_Load);

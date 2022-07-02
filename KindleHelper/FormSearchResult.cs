@@ -69,8 +69,13 @@ namespace KindleHelper
                 listview_result.Items.Add(item);
             }
             listview_result.EndUpdate();
+ 
+
             this.Show();
             cacheResults = results;
+
+            listview_result.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+            listview_result.Invalidate();
         }
 
 
