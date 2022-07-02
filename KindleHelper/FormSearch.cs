@@ -30,9 +30,9 @@ namespace KindleHelper
             FormSearchResult form_result = new FormSearchResult();
             //var results = LibZhuiShu.fuzzySearch(textbox_search.Text, 0, 100);
 
-            Task.Run(() =>
+            Task.Run(async () =>
             {
-                var results = _logic.fuzzySearch(textbox_search.Text.Trim());
+                var results = await _logic.fuzzySearch(textbox_search.Text.Trim());
 
                 if (results == null || results.Length < 1)
                 {

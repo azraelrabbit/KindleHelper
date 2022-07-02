@@ -21,7 +21,7 @@ namespace I7txtCC
 
         const string host = "http://www.i7txt.cc/";
 
-        AHttpClientPool _pool;
+        HttpClientPool _pool;
 
         //HttpClient client;
 
@@ -31,12 +31,12 @@ namespace I7txtCC
 
             //var uri = new Uri(host);
 
-            _pool = new AHttpClientPool(baseUrl: "http://www.i7txt.cc/", poolSize:10);
-
+            //_pool = new AHttpClientPool(baseUrl: "http://www.i7txt.cc/", poolSize:10);
+            _pool = new HttpClientPool("http://www.i7txt.cc/",10);
             //client = new HttpClient();
             //client.BaseAddress = new Uri(host);
 
-          
+
 
         }
 
@@ -48,7 +48,7 @@ namespace I7txtCC
         /// <param name="limit">结果数量限制</param>
         /// <returns></returns>
 
-        public override QueryBookInfo[] fuzzySearch(string query)
+        public override async Task<QueryBookInfo[]> fuzzySearch(string query)
         {
             List<QueryBookInfo> bookList = new List<QueryBookInfo>();
 
@@ -56,9 +56,12 @@ namespace I7txtCC
             var surl = searchUrl + HttpUtility.UrlEncode(query);
 
 
-            //var result = _pool.GetClient().GetStringAsync(surl).Result;
+            var result = await _pool.GetClient().GetStringAsync(surl);
 
-            var result = HttpHelper.Get(surl,host);// client.GetStringAsync(surl).Result;
+            //var result = HttpHelper.Get(surl,host);// client.GetStringAsync(surl).Result;
+
+
+            //var result = await _pool.LoadUrlAsyncTask2(surl);
 
             if (!string.IsNullOrEmpty(result))
             {
@@ -195,7 +198,7 @@ namespace I7txtCC
         /// <param name="tocid">书源ID</param>
         /// <returns></returns>
 
-        public override TocChaperListInfo getChaperList(string tocUrl, string bookName, string bookId)
+        public override async Task<TocChaperListInfo> getChaperList(string tocUrl, string bookName, string bookId)
         {
             //string host = string.Format(tocUrl);
             //var ret = HttpHelper.GET_JsonObject(host);
@@ -206,10 +209,10 @@ namespace I7txtCC
             chapterList.name = bookName;
             chapterList._id = bookId;
 
-//var restult = _pool.GetClient().GetStringAsync(tocUrl).Result;
+            var restult = await _pool.GetClient().GetStringAsync(tocUrl);//.Result;
 
-            var restult = HttpHelper.Get(tocUrl, host); // client.GetStringAsync(tocUrl).Result;
-
+            //var restult = HttpHelper.Get(tocUrl, host); // client.GetStringAsync(tocUrl).Result;
+            //var restult = await _pool.LoadUrlAsyncTask2(tocUrl);
 
             var doc = new HtmlDocument();
             doc.LoadHtml(restult);
@@ -271,7 +274,9 @@ namespace I7txtCC
                 durl = host + chapterLink;
             }
 
-            var ret =await _pool.LoadUrlAsyncTask2(durl);
+            var ret = await _pool.GetClient().GetStringAsync(durl);
+
+            //var ret =await _pool.LoadUrlAsyncTask2(durl);
 
             //var ret = HttpHelper.Get(durl, chapterLink);// client.GetStringAsync(durl).Result;
 
@@ -290,7 +295,7 @@ namespace I7txtCC
 
                 var contentNode = doc.DocumentNode.SelectSingleNode($"/html/body/div[@class='novel']/div[@class='ydleft']/div[@class='yd_text2']");
 
-                var content = contentNode.InnerText.Replace("&nbsp;&nbsp;","  ");
+                var content = contentNode.InnerText.Replace("&nbsp;&nbsp;","  ").Replace("\n\n","\n");
 
 
                 var ci = new ChapterInfo();

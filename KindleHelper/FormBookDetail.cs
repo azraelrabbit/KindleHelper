@@ -30,7 +30,7 @@ namespace KindleHelper
         //MixTocInfo mMixToc;
         List<tocChaperInfo> preDownLoadChapters = new List<tocChaperInfo>();
 
-        public void ShowBook(QueryBookInfo book, INovolLogic logic)
+        public async void ShowBook(QueryBookInfo book, INovolLogic logic)
         {
             _logic= logic;
 
@@ -69,7 +69,7 @@ namespace KindleHelper
                 picturebox_cover.ImageLocation = url;
             }
 
-           var chi= _logic.getChaperList(book.indexUrl, book.title, book._id);
+           var chi= await _logic.getChaperList(book.indexUrl, book.title, book._id);
 
             this.mChapers = chi.chapters;
 

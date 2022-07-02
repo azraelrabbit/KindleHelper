@@ -89,10 +89,9 @@
     <Compile Include="api\tocChaperInfo.cs" />
     <Compile Include="api\TocChaperListInfo.cs" />
     <Compile Include="HttpHelper.cs" />
-    <Compile Include="HttpPool\HttpClientPool.cs" />
-    <Compile Include="HttpPool\MyHttpClienHanlder.cs" />
-    <Compile Include="HttpPool\MyHttpClient.cs" />
-    <Compile Include="HttpPool\MyHttpMessageHandler.cs" />
+    <Compile Include="Http\HttpClientPool.cs" />
+    <Compile Include="Http\MyHttpClienHanlder.cs" />
+    <Compile Include="Http\MyHttpClient.cs" />
     <Compile Include="INovolLogic.cs" />
     <Compile Include="NovolLogicBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -6,8 +6,8 @@ namespace BookLogicCommon
 {
     public abstract class NovolLogicBase : INovolLogic
     {
-        public abstract QueryBookInfo[] fuzzySearch(string query);
-        public abstract TocChaperListInfo getChaperList(string tocUrl,string bookName, string bookId);
+        public abstract Task<QueryBookInfo[]> fuzzySearch(string query);
+        public abstract Task<TocChaperListInfo> getChaperList(string tocUrl,string bookName, string bookId);
         public   abstract Task<ChapterInfo> getChapter(string chapterLink, string chapterName, string chapterId,int chIndex);
  
 
